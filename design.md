@@ -99,3 +99,94 @@ graph TD
 ```
 
 In the tree, a town reached by a different route appears again as a separate node (Nakuru, Kericho and Kisumu repeat), because each node represents one path from Nairobi.
+
+
+
+## Question 3: Optimal Path from Nairobi to Kisumu
+ 
+**Path cost function:** The cost of driving from one town to the next connected town is the driving distance between them in kilometres, rounded to the nearest km, as given by Google Maps. The cost of a path is the sum of the costs of its edges, written g(n) for a node n in the search tree. The best path is the one with the lowest total.
+ 
+### Part A: Distances between connected towns
+ 
+Each row is one edge of the directed graph in Question 2, so there are 21 in total.
+ 
+| # | From | To | Distance (km) |
+|---|---|---|---|
+| 1 | Nairobi | Ruiru | 25 |
+| 2 | Nairobi | Athi River | 30 |
+| 3 | Nairobi | Naivasha | 91 |
+| 4 | Nairobi | Narok | 143 |
+| 5 | Ruiru | Thika | 21 |
+| 6 | Thika | Karatina | 88 |
+| 7 | Karatina | Nyeri | 25 |
+| 8 | Nyeri | Nyahururu | 104 |
+| 9 | Nyahururu | Nakuru | 68 |
+| 10 | Athi River | Makindu | 149 |
+| 11 | Athi River | Kajiado | 50 |
+| 12 | Naivasha | Gilgil | 30 |
+| 13 | Gilgil | Nakuru | 42 |
+| 14 | Nakuru | Kericho | 107 |
+| 15 | Kericho | Kisumu | 84 |
+| 16 | Narok | Bomet | 81 |
+| 17 | Bomet | Kisii | 82 |
+| 18 | Kisii | Kisumu | 114 |
+| 19 | Kisii | Migori | 67 |
+| 20 | Kisii | Homa Bay | 52 |
+| 21 | Homa Bay | Kisumu | 108 |
+ 
+### Part B: Search tree with path costs
+ 
+The search tree from Question 2 is repeated below, now with the edge distances on the arrows and the cumulative cost g(n) inside each node.
+ 
+```mermaid
+graph TD
+    R((Nairobi<br/>g=0))
+    R -->|25| A1((Ruiru<br/>g=25))
+    R -->|30| B1((Athi River<br/>g=30))
+    R -->|91| C1((Naivasha<br/>g=91))
+    R -->|143| D1((Narok<br/>g=143))
+ 
+    A1 -->|21| A2((Thika<br/>g=46))
+    A2 -->|88| A3((Karatina<br/>g=134))
+    A3 -->|25| A4((Nyeri<br/>g=159))
+    A4 -->|104| A5((Nyahururu<br/>g=263))
+    A5 -->|68| A6((Nakuru<br/>g=331))
+    A6 -->|107| A7((Kericho<br/>g=438))
+    A7 -->|84| A8((Kisumu<br/>g=522))
+ 
+    B1 -->|149| B2((Makindu<br/>g=179))
+    B1 -->|50| B3((Kajiado<br/>g=80))
+ 
+    C1 -->|30| C2((Gilgil<br/>g=121))
+    C2 -->|42| C3((Nakuru<br/>g=163))
+    C3 -->|107| C4((Kericho<br/>g=270))
+    C4 -->|84| C5((Kisumu<br/>g=354))
+ 
+    D1 -->|81| D2((Bomet<br/>g=224))
+    D2 -->|82| D3((Kisii<br/>g=306))
+    D3 -->|114| D4((Kisumu<br/>g=420))
+    D3 -->|67| D5((Migori<br/>g=373))
+    D3 -->|52| D6((Homa Bay<br/>g=358))
+    D6 -->|108| D7((Kisumu<br/>g=466))
+ 
+    style R fill:#cfe8ff,stroke:#1f6feb
+    style A8 fill:#fde2e2,stroke:#b42318
+    style C5 fill:#d4f8d4,stroke:#1a7f37
+    style D4 fill:#fde2e2,stroke:#b42318
+    style D7 fill:#fde2e2,stroke:#b42318
+```
+ 
+Green marks the cheapest route to Kisumu and red marks the more expensive routes to it.
+ 
+### Part C: Comparison of all routes to Kisumu
+ 
+| Route | Path | Calculation | Total (km) |
+|---|---|---|---|
+| Central Highlands | Nairobi → Ruiru → Thika → Karatina → Nyeri → Nyahururu → Nakuru → Kericho → Kisumu | 25 + 21 + 88 + 25 + 104 + 68 + 107 + 84 | 522 |
+| **Naivasha, Nakuru** | **Nairobi → Naivasha → Gilgil → Nakuru → Kericho → Kisumu** | **91 + 30 + 42 + 107 + 84** | **354** |
+| Narok, Kisii | Nairobi → Narok → Bomet → Kisii → Kisumu | 143 + 81 + 82 + 114 | 420 |
+| Narok, Kisii, Homa Bay | Nairobi → Narok → Bomet → Kisii → Homa Bay → Kisumu | 143 + 81 + 82 + 52 + 108 | 466 |
+ 
+### Conclusion
+ 
+**The optimal path is Nairobi → Naivasha → Gilgil → Nakuru → Kericho → Kisumu, with a total cost of 354 km.** The next best route, through Narok and Kisii, is 66 km longer. 
