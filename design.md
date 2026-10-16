@@ -190,3 +190,9 @@ Green marks the cheapest route to Kisumu and red marks the more expensive routes
 ### Conclusion
  
 **The optimal path is Nairobi → Naivasha → Gilgil → Nakuru → Kericho → Kisumu, with a total cost of 354 km.** The next best route, through Narok and Kisii, is 66 km longer. 
+
+---
+
+### Team Photo
+
+![Our team](team_photo.jpeg)
